@@ -21,7 +21,7 @@ services:
 
   klipper:
     <<: *common
-    image: ghcr.io/cyb3rw0lf-3d/android21-klipper:latest
+    image: ghcr.io/cyb3rw0lf-3d/android21-klipper@sha256:478c0985f78a9aa460034b1e96dc6132f65cc45f05a5f9a39c95a5137b1db3d4
     working_dir: /home/sunday/klipper
     command: ["python", "klippy/klippy.py", "/home/sunday/printer_data/config/printer.cfg",
               "-I", "/home/sunday/printer_data/comms/klippy.serial",
@@ -38,7 +38,7 @@ services:
 
   moonraker:
     <<: *common
-    image: ghcr.io/cyb3rw0lf-3d/android21-moonraker:latest
+    image: ghcr.io/cyb3rw0lf-3d/android21-moonraker@sha256:cbedaef6d400f17012ef984bfa9f4486e8131413fdd9ca9f40764a717f2ab80a
     working_dir: /home/sunday/moonraker
     environment:
       HOME: /home/sunday
@@ -57,6 +57,6 @@ services:
     image: ghcr.io/fluidd-core/fluidd@sha256:e3069ff7cbc8c4e05c68d05a22f816542371eb0af8670cee922487d1453b6796   # v1.37.7
     restart: always
     volumes:
-      - ${APP_DATA_DIR}/nginx/fluidd.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${APP_DATA_DIR}/nginx/fluidd.conf:/etc/nginx/templates/default.conf.template:ro
     depends_on:
       - moonraker
