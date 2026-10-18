@@ -1,0 +1,31 @@
+name: images
+on:
+  push:
+    branches: [main]
+    paths: ["images/**", ".github/workflows/images.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: [klipper, moonraker]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: images/${{ matrix.image }}
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/cyb3rw0lf-3d/android21-${{ matrix.image }}:latest
+      - run: echo "ghcr.io/cyb3rw0lf-3d/android21-${{ matrix.image }}@${{ steps.push.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"

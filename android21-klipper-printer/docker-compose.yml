@@ -1,0 +1,62 @@
+version: "3.7"
+
+# Data layout (all under ${APP_DATA_DIR}/data, created by scripts/stage-printer-app.sh in android21-services):
+#   klipper/       your Klipper source tree        moonraker/     your Moonraker source tree
+#   printer_data/  config/, comms/, logs/, gcodes/  api.key        Moonraker API key (only read by check scripts)
+# Paths inside the containers stay /home/sunday/... so an existing printer.cfg / moonraker.conf works unchanged.
+
+x-common: &common
+  restart: always
+  user: "1000:1000"
+  group_add: ["dialout"]
+  init: true
+  environment:
+    HOME: /home/sunday
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: android21-klipper-printer_fluidd_1
+      APP_PORT: 80
+
+  klipper:
+    <<: *common
+    image: ghcr.io/cyb3rw0lf-3d/android21-klipper:latest
+    working_dir: /home/sunday/klipper
+    command: ["python", "klippy/klippy.py", "/home/sunday/printer_data/config/printer.cfg",
+              "-I", "/home/sunday/printer_data/comms/klippy.serial",
+              "-a", "/home/sunday/printer_data/comms/klippy.sock",
+              "-l", "/home/sunday/printer_data/logs/klippy.log"]
+    volumes:
+      - ${APP_DATA_DIR}/data/klipper:/home/sunday/klipper
+      - ${APP_DATA_DIR}/data/printer_data:/home/sunday/printer_data
+      # /dev as a whole, so /dev/serial/by-id/* keeps working across replugs; the cgroup rules allow ttyUSB (188) and ttyACM (166)
+      - /dev:/dev
+    device_cgroup_rules: ["c 188:* rmw", "c 166:* rmw"]
+    # Klipper's host thread is the timing-critical one on this 2-core machine
+    cpu_shares: 2048
+
+  moonraker:
+    <<: *common
+    image: ghcr.io/cyb3rw0lf-3d/android21-moonraker:latest
+    working_dir: /home/sunday/moonraker
+    environment:
+      HOME: /home/sunday
+      PYTHONPATH: /home/sunday/moonraker
+      MOONRAKER_DATA_PATH: /home/sunday/printer_data
+    command: ["python", "-m", "moonraker"]
+    ports:
+      - "7125:7125"   # phone apps / other tools talk to Moonraker directly, as on the old install; Moonraker's own login (force_logins) guards it
+    volumes:
+      - ${APP_DATA_DIR}/data/moonraker:/home/sunday/moonraker:ro
+      - ${APP_DATA_DIR}/data/printer_data:/home/sunday/printer_data
+    depends_on:
+      - klipper
+
+  fluidd:
+    image: ghcr.io/fluidd-core/fluidd@sha256:e3069ff7cbc8c4e05c68d05a22f816542371eb0af8670cee922487d1453b6796   # v1.37.7
+    restart: always
+    volumes:
+      - ${APP_DATA_DIR}/nginx/fluidd.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - moonraker

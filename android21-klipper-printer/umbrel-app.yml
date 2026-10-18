@@ -1,0 +1,30 @@
+manifestVersion: 1
+id: android21-klipper-printer
+name: Klipper Printer
+tagline: Klipper, Moonraker and Fluidd for a 3D printer, run from your own config
+category: Development
+version: "1.0.0"
+port: 8197
+description: >-
+  Runs Klipper (the printer firmware host), Moonraker (its API) and Fluidd (the web UI) as containers.
+
+
+  This app ships no printer configuration and no Klipper or Moonraker source: it mounts your own trees from the
+  app's data folder (klipper/, moonraker/ and printer_data/). Until you copy them there, the Klipper and Moonraker
+  containers will keep restarting.
+
+
+  The printer connects over USB serial; the app can reach /dev/ttyUSB* and /dev/ttyACM* devices.
+developer: cyb3rw0lf-3D
+website: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
+submitter: cyb3rw0lf-3D
+submission: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
+repo: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
+support: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps/issues
+gallery: []
+releaseNotes: >-
+  First version.
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
