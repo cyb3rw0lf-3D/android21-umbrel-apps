@@ -1,0 +1,10 @@
+{
+  "nes":       {"core": "nestopia_libretro.so",          "exts": [".nes", ".fds", ".unf"],            "rewind": true,  "shader": null},
+  "snes":      {"core": "snes9x_libretro.so",            "exts": [".sfc", ".smc"],                    "rewind": true,  "shader": null},
+  "gb":        {"core": "mgba_libretro.so",              "exts": [".gb", ".gbc"],                     "rewind": true,  "shader": null},
+  "gba":       {"core": "mgba_libretro.so",              "exts": [".gba"],                            "rewind": true,  "shader": null},
+  "megadrive": {"core": "genesis_plus_gx_libretro.so",   "exts": [".md", ".gen", ".bin", ".smd"],     "rewind": true,  "shader": null},
+  "psx":       {"core": "pcsx_rearmed_libretro.so",      "exts": [".cue", ".chd", ".pbp"],            "rewind": false, "shader": null},
+  "n64":       {"core": "mupen64plus_next_libretro.so",  "exts": [".z64", ".n64", ".v64"],            "rewind": false, "shader": null, "optional": true},
+  "nds":       {"core": "desmume_libretro.so",           "exts": [".nds"],                            "rewind": false, "shader": null}
+}
