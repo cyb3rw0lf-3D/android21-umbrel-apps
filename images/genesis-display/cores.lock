@@ -1,0 +1,8 @@
+# name repo commit sha256-of-built-so builddir makefile [optional]
+# Pinned commits (2026-10-23 HEAD). The sha256 column is "-" until the first successful build on the box, then committed.
+# builddir/makefile are the best-known upstream layout and are NOT verified until Task 8's first real build.
+snes9x libretro/snes9x fae2fea08f74180759ef540ee94259213f503480 - libretro Makefile
+genesis_plus_gx libretro/Genesis-Plus-GX 60bee4c724859710ce05672239e5b601ad01382e - . Makefile.libretro
+pcsx_rearmed libretro/pcsx_rearmed c8816799b50388e61cfe237fe2cdbb7d8175f20a - . Makefile.libretro
+melonds libretro/melonDS 66b5d2634cd0a79030562811e6e05f5532f800ba - . Makefile
+mupen64plus_next libretro/mupen64plus-libretro-nx 15bada85906593376e8fd697f1b0b3af3a20f512 - . Makefile optional
