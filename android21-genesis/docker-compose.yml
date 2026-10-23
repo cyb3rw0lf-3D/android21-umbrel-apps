@@ -1,0 +1,42 @@
+# Genesis M0. Image tags below are placeholders until the first CI build; pin them by digest (tag@sha256:...) before release.
+# Printer rule: genesis-gate reads print_stats.state from the klipper-printer app's klippy.sock (mounted read-only).
+version: "3.7"
+services:
+  app_proxy:
+    environment:
+      APP_HOST: android21-genesis_genesis-gate_1
+      APP_PORT: 8210
+
+  genesis-gate:
+    image: ghcr.io/cyb3rw0lf-3d/android21-genesis-gate:m0
+    user: "1000:1000"
+    restart: on-failure
+    cpu_shares: 128
+    environment:
+      KLIPPY_SOCK: /comms/klippy.sock
+    volumes:
+      - ${UMBREL_ROOT}/app-data/android21-klipper-printer/data/printer_data/comms:/comms:ro
+
+  genesis-display:
+    image: ghcr.io/cyb3rw0lf-3d/android21-genesis-display:m0
+    restart: on-failure
+    cpu_shares: 128
+    depends_on: [genesis-gate]
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/snd:/dev/snd
+    group_add:
+      - "44"     # video (numeric gids: names do not resolve inside the container)
+      - "29"     # audio
+      - "104"    # input   (CONFIRM against the host with `getent group input video audio` at Task 6)
+    environment:
+      GATE_URL: http://android21-genesis_genesis-gate_1:8210/gate
+    volumes:
+      - /dev/input:/dev/input
+      - /run/udev:/run/udev:ro
+      - ${APP_DATA_DIR}/roms:/data/roms
+      - ${APP_DATA_DIR}/saves:/data/saves
+      - ${APP_DATA_DIR}/states:/data/states
+      - ${APP_DATA_DIR}/bios:/data/bios
+      - ${APP_DATA_DIR}/config:/data/config
+      - ${APP_DATA_DIR}/cores:/cores

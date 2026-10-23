@@ -1,0 +1,27 @@
+manifestVersion: 1
+id: android21-genesis
+name: Genesis
+tagline: A retro-console box for the laptop's HDMI screen
+category: Games
+version: "0.1.0"
+port: 8210
+description: >-
+  Genesis turns the machine into a retro game console on its HDMI screen. It ships no games and no BIOS files: you
+  add your own. A built-in rule refuses to start a game, and closes a running one, while the 3D printer is printing.
+
+
+  This first version (M0) has the printer rule, RetroArch with NES, GBA and DS cores, and pad support. The web game
+  manager comes later.
+developer: cyb3rw0lf-3D
+website: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
+submitter: cyb3rw0lf-3D
+submission: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
+repo: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
+support: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps/issues
+gallery: []
+releaseNotes: >-
+  First version (M0).
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
