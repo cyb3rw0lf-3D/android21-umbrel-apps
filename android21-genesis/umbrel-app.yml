@@ -5,6 +5,8 @@ tagline: A retro-console box for the laptop's HDMI screen
 category: Games
 version: "0.1.0"
 port: 8210
+permissions:
+  - GPU
 description: >-
   Genesis turns the machine into a retro game console on its HDMI screen. It ships no games and no BIOS files: you
   add your own. A built-in rule refuses to start a game, and closes a running one, while the 3D printer is printing.

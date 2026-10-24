@@ -28,7 +28,7 @@ services:
     group_add:
       - "44"     # video (numeric gids: names do not resolve inside the container)
       - "29"     # audio
-      - "104"    # input   (CONFIRM against the host with `getent group input video audio` at Task 6)
+      - "995"    # input (confirmed on host: getent group input -> 995)
     environment:
       GATE_URL: http://android21-genesis_genesis-gate_1:8210/gate
     volumes:
