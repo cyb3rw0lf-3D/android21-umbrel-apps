@@ -21,7 +21,7 @@ services:
 
   klipper:
     <<: *common
-    image: ghcr.io/cyb3rw0lf-3d/android21-klipper@sha256:478c0985f78a9aa460034b1e96dc6132f65cc45f05a5f9a39c95a5137b1db3d4
+    image: ghcr.io/cyb3rw0lf-3d/android21-klipper@sha256:26d3c5adda8912150186b615d3c21038af89462018b570523cb267879b7a5038
     working_dir: /home/sunday/klipper
     command: ["python", "klippy/klippy.py", "/home/sunday/printer_data/config/printer.cfg",
               "-I", "/home/sunday/printer_data/comms/klippy.serial",
