@@ -42,6 +42,12 @@ class StarterTests(unittest.TestCase):
         s.state = "streaming"
         self.assertFalse(s.start()[0])
 
+    def test_open_for_signin_launches_without_closing(self):
+        s, _, calls = make()
+        self.assertTrue(s.open_for_signin()[0])
+        self.assertEqual(calls, ["launch"])
+        self.assertEqual(s.state, "idle")
+
 
 if __name__ == "__main__":
     unittest.main()
