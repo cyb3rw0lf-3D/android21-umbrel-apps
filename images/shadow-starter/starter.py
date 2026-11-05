@@ -4,7 +4,7 @@ The app's own "Start streaming automatically" setting does the connecting; this 
 """
 import os, signal, subprocess, threading, time
 
-LAUNCH = ["/usr/bin/shadow-prod", "--no-sandbox"]
+LAUNCH = ["/usr/local/bin/shadow-open"]
 STREAMER = "ShadowPCDisplay"          # the app's native renderer; it only runs while streaming
 STAY = int(os.environ.get("SHADOW_STAY_SECONDS", "120"))
 CONNECT_TIMEOUT = int(os.environ.get("SHADOW_CONNECT_TIMEOUT", "300"))

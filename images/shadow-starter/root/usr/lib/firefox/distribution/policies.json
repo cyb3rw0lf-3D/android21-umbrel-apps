@@ -1,0 +1,13 @@
+{
+  "policies": {
+    "Handlers": {
+      "schemes": {
+        "tech.shadow": {
+          "action": "useHelperApp",
+          "ask": false,
+          "handlers": [{ "name": "Shadow PC", "path": "/usr/local/bin/shadow-open" }]
+        }
+      }
+    }
+  }
+}

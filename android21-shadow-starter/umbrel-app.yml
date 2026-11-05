@@ -3,7 +3,7 @@ id: android21-shadow-starter
 name: Shadow Starter
 tagline: Turn your Shadow PC on with one button
 category: Utilities
-version: "0.1.1"
+version: "0.1.2"
 port: 8213
 description: >-
   Shadow Starter opens the official Shadow app on a hidden desktop, waits until it connects (which turns your Shadow
@@ -21,7 +21,7 @@ repo: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
 support: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps/issues
 gallery: []
 releaseNotes: >-
-  Adds a browser so the Shadow app can sign in, and an "Open the Shadow app to sign in" button.
+  Fixes the sign-in link not reaching the Shadow app, and logs the app's output to the container log.
 dependencies: []
 path: ""
 defaultUsername: "umbrel"

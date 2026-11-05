@@ -14,3 +14,4 @@ RUN install -d -m 0755 /etc/apt/keyrings \
  && rm -rf /tmp/shadow.deb /var/lib/apt/lists/*
 COPY starter.py server.py /app/
 COPY root/ /
+RUN update-desktop-database /usr/share/applications
