@@ -1,0 +1,27 @@
+# Shadow Starter. Image pinned by digest.
+# The start page (port 8213) has no Umbrel login so Home Assistant can call POST /api/start on the LAN; from outside
+# it is only reachable through Cloudflare Access. The desktop (for the one-time Shadow sign-in) has its own password.
+version: "3.7"
+services:
+  app_proxy:
+    environment:
+      APP_HOST: android21-shadow-starter_desktop_1
+      APP_PORT: 8213
+      PROXY_AUTH_ADD: "false"
+
+  desktop:
+    image: ghcr.io/cyb3rw0lf-3d/android21-shadow-starter@sha256:136c15904d50d6ec2644f5b43af947bb5c339fb9ed5bbaee14aa268d27c097be
+    restart: on-failure
+    shm_size: 1gb
+    mem_limit: 1500m
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: America/Chicago
+      CUSTOM_USER: umbrel
+      PASSWORD: ${APP_PASSWORD}
+      SHADOW_DESKTOP_URL: https://shadow-desktop.android21engine.org
+    ports:
+      - "8214:3000"
+    volumes:
+      - ${APP_DATA_DIR}/config:/config

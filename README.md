@@ -6,6 +6,7 @@ A community app store for umbrelOS. Add it in **Settings -> App Store -> Add** w
 | app | what |
 |---|---|
 | `android21-klipper-printer` | Klipper + Moonraker + Fluidd for a USB-serial 3D printer, run from your own config |
+| `android21-shadow-starter` | One button that turns your Shadow PC on, using the official Shadow app |
 
 This repo contains **no printer config, no Klipper/Moonraker source and no secrets**. The app mounts those from its
 data folder on the device; the helper that copies them there lives in the private `android21-services` repo

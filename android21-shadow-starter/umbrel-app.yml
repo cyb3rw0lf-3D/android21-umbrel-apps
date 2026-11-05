@@ -1,0 +1,28 @@
+manifestVersion: 1
+id: android21-shadow-starter
+name: Shadow Starter
+tagline: Turn your Shadow PC on with one button
+category: Utilities
+version: "0.1.0"
+port: 8213
+description: >-
+  Shadow Starter opens the official Shadow app on a hidden desktop, waits until it connects (which turns your Shadow
+  PC on), then closes it again after two minutes so you can connect with another remote-desktop app.
+
+
+  First run: open the desktop (port 8214, user "umbrel", the password shown here), sign in to Shadow, and in the
+  Shadow app's settings turn on "Start streaming automatically" and software decoding. After that, press Start Shadow
+  PC, or call POST /api/start from Home Assistant. It needs about 600 MB of free memory to start.
+developer: cyb3rw0lf-3D
+website: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
+submitter: cyb3rw0lf-3D
+submission: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
+repo: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps
+support: https://github.com/cyb3rw0lf-3D/android21-umbrel-apps/issues
+gallery: []
+releaseNotes: >-
+  First version.
+dependencies: []
+path: ""
+defaultUsername: "umbrel"
+deterministicPassword: true

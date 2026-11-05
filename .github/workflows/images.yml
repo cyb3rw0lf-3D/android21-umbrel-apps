@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: [klipper, moonraker, genesis-gate, genesis-display]
+        image: [klipper, moonraker, genesis-gate, genesis-display, shadow-starter]
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
