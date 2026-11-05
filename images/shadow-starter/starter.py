@@ -50,6 +50,15 @@ class Starter:
         threading.Thread(target=self.run, daemon=True).start()
         return True, "Starting."
 
+    def open_for_signin(self):
+        """Open the app and leave it open (for signing in or changing its settings)."""
+        with self.lock:
+            if self.state in ("opening", "streaming"):
+                return False, "Already starting."
+            self.launch()
+            self.message = "The Shadow app is open on the desktop. Close it there when you're done."
+        return True, "Opened."
+
     def run(self):
         self.launch()
         deadline = self.now() + CONNECT_TIMEOUT
