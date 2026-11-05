@@ -1,0 +1,8 @@
+#!/bin/sh
+# Every way the Shadow app is opened goes through here: the start page and the tech.shadow:// sign-in link.
+# --no-sandbox is needed in a container; without it a second copy started for the link crashes before it can
+# hand the link to the open window. Output goes to the container log (or /config/shadow-app.log if that isn't
+# writable) so the app's errors show up.
+log=/proc/1/fd/1
+[ -w "$log" ] || log=/config/shadow-app.log
+exec /usr/bin/shadow-prod --no-sandbox "$@" >>"$log" 2>&1

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Shadow PC (sign-in link)
+Exec=/usr/local/bin/shadow-open %U
+Type=Application
+NoDisplay=true
+MimeType=x-scheme-handler/tech.shadow;
