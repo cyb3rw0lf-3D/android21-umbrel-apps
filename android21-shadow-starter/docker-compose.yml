@@ -10,7 +10,7 @@ services:
       PROXY_AUTH_ADD: "false"
 
   desktop:
-    image: ghcr.io/cyb3rw0lf-3d/android21-shadow-starter@sha256:d5cb03ee4fe0407bf45dd5c4431ad76d6ced0b18b423b46eb5e673d011d64839
+    image: ghcr.io/cyb3rw0lf-3d/android21-shadow-starter@sha256:17c1423e7b66a8685d3c6cf4795d4a13d88a61d84de5c817f5cf7b7040613e02
     restart: on-failure
     shm_size: 1gb
     mem_limit: 1500m
