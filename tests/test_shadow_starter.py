@@ -3,6 +3,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "images", "shad
 import starter
 
 
+starter.STAY = 120  # the timed mode; the stay-connected default is tested below
+
+
 class Clock:
     def __init__(self): self.t = 0.0
     def now(self): return self.t
@@ -47,6 +50,24 @@ class StarterTests(unittest.TestCase):
         self.assertTrue(s.open_for_signin()[0])
         self.assertEqual(calls, ["launch"])
         self.assertEqual(s.state, "idle")
+
+    def test_stays_connected_until_the_stream_ends(self):
+        c, calls = Clock(), []
+        s = starter.Starter(launch=lambda: calls.append("launch"), is_streaming=lambda: 30 <= c.t < 600,
+                            stop=lambda: calls.append("stop"), free=lambda: 2000, sleep=c.sleep, now=c.now)
+        old, starter.STAY = starter.STAY, 0
+        try:
+            s.state = "opening"; s.run()
+        finally:
+            starter.STAY = old
+        self.assertEqual(calls, ["launch"])
+        self.assertEqual(s.state, "error")
+        self.assertGreaterEqual(c.t, 600)
+
+    def test_stop_closes_the_app(self):
+        s, _, calls = make()
+        self.assertTrue(s.stop_now()[0])
+        self.assertEqual(calls, ["stop"]); self.assertEqual(s.state, "idle")
 
 
 if __name__ == "__main__":
