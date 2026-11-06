@@ -6,7 +6,9 @@ import os, signal, subprocess, threading, time
 
 LAUNCH = ["/usr/local/bin/shadow-open"]
 STREAMER = "ShadowPCDisplay"          # the app's native renderer; it only runs while streaming
-STAY = int(os.environ.get("SHADOW_STAY_SECONDS", "120"))
+# How long to stay connected once streaming; 0 means until Stop is pressed. Shadow turns the PC off about
+# 10 minutes after the last Shadow stream closes, and another remote-desktop app doesn't count as one.
+STAY = int(os.environ.get("SHADOW_STAY_SECONDS", "0"))
 CONNECT_TIMEOUT = int(os.environ.get("SHADOW_CONNECT_TIMEOUT", "300"))
 MIN_FREE_MB = int(os.environ.get("SHADOW_MIN_FREE_MB", "600"))
 
@@ -35,6 +37,7 @@ class Starter:
         self.launch, self.is_streaming, self.stop, self.free, self.sleep, self.now = launch, is_streaming, stop, free, sleep, now
         self.lock = threading.Lock()
         self.state, self.message, self.last = "idle", "Ready.", None
+        self.stopping = threading.Event()
 
     def status(self):
         return {"state": self.state, "message": self.message, "last_started": self.last}
@@ -47,8 +50,16 @@ class Starter:
             if self.free() < MIN_FREE_MB:
                 return False, f"Only {self.free()} MB of memory free. Stop Firefox, Cura or a slicer first."
             self.state, self.message = "opening", "Opening the Shadow app..."
+            self.stopping.clear()
         threading.Thread(target=self.run, daemon=True).start()
         return True, "Starting."
+
+    def stop_now(self):
+        """Close the Shadow app (Shadow then turns the PC off about 10 minutes later)."""
+        self.stopping.set()
+        self.stop()
+        self.state, self.message = "idle", "Closed the Shadow app. Shadow turns the PC off about 10 minutes later."
+        return True, "Stopped."
 
     def open_for_signin(self):
         """Open the app and leave it open (for signing in or changing its settings)."""
@@ -63,6 +74,8 @@ class Starter:
         self.launch()
         deadline = self.now() + CONNECT_TIMEOUT
         while not self.is_streaming():
+            if self.stopping.is_set():
+                return
             if self.now() > deadline:
                 self.stop()
                 self.state = "error"
@@ -70,7 +83,15 @@ class Starter:
                                 "and that 'Start streaming automatically' is on.")
                 return
             self.sleep(3)
-        self.state, self.message, self.last = "streaming", f"Connected. Closing in {STAY // 60} min.", self.now()
+        self.last = self.now()
+        if not STAY:
+            self.state, self.message = "streaming", "Connected; staying connected so Shadow keeps the PC on. Press Stop when you're done."
+            while self.is_streaming() and not self.stopping.is_set():
+                self.sleep(10)
+            if not self.stopping.is_set():
+                self.state, self.message = "error", "The Shadow stream closed. Shadow turns the PC off about 10 minutes later."
+            return
+        self.state, self.message = "streaming", f"Connected. Closing in {STAY // 60} min."
         self.sleep(STAY)
         self.stop()
         self.state, self.message = "idle", "Your Shadow PC should be on. Connect with Avica."
