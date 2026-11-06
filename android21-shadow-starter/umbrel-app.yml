@@ -10,7 +10,6 @@ description: >-
   PC on), and stays connected until you press Stop: Shadow turns the PC off about 10 minutes after the last Shadow stream closes.
 
 
-  First run: open the desktop (port 8214, user "umbrel", the password shown here), sign in to Shadow, and in the
   First run: on the start page press "Open the Shadow app to sign in", then on the desktop (port 8214, user "umbrel", the password shown here) sign in to Shadow and turn on "Start streaming automatically" and software decoding in its settings. After that, press Start Shadow
   PC, or call POST /api/start from Home Assistant. It needs about 600 MB of free memory to start.
 developer: cyb3rw0lf-3D
